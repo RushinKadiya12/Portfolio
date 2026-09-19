@@ -1914,7 +1914,7 @@
             <div class="value">+91 8140345287</div>
           </div>
         </div>
-        <div class="social-block" data-animate="footer-rise" style="transition-delay:.3s">
+        <div class="social-block" data-animate="footer-rise" data-reveal-now style="transition-delay:.3s">
           <div class="label">SOCIAL MEDIA</div>
           <div class="social-icons">
             <a class="li" href="#" aria-label="LinkedIn"><img src="./assets/linkedin.svg" alt="LinkedIn"></a>
@@ -1959,6 +1959,13 @@
     }, { threshold: 0.2, rootMargin: '0px 0px -60px 0px' });
 
     revealEls.forEach(el => revealObserver.observe(el));
+
+    // Social block: page ke end me observer trigger nahi hota, isliye scroll end pe manually reveal
+    const socialBlock = document.querySelector('.social-block[data-reveal-now]');
+    window.addEventListener('scroll', () => {
+      const r = socialBlock.getBoundingClientRect();
+      if (r.top < window.innerHeight) socialBlock.classList.add('in-view');
+    }, { passive: true });
   </script>
 
 </body>
