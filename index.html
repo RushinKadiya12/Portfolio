@@ -602,17 +602,6 @@
       color: #ffffff;
     }
 
-    .btn .arrow-circle {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 2px solid currentColor;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-    }
 
     /* ===== TOOL BANNERS ===== */
     .tool-banner {
@@ -621,17 +610,18 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 20px;
-      padding: 34px 60px;
+      padding: 25px 60px;
+      position: relative;
     }
 
     .tool-banner.blue {
       background: var(--blue);
-      margin: 80px 0 50px 0;
+      margin: 60px 0 45px 0;
     }
 
     .tool-banner.orange {
       background: var(--orange);
-      margin: 0px 0 80px 0;
+      margin: 0px 0 60px 0;
     }
 
     .tool-banner .section-title {
@@ -650,12 +640,88 @@
       display: flex;
       gap: 25px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 5;
     }
 
     .tool-icon {
       width: 80px;
       height: 80px;
       border-radius: 14px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .tool-icon img {
+      width: 100%;
+      height: 100%;
+      transition: transform .25s ease;
+    }
+
+    .tool-icon:hover img {
+      transform: translateY(-3px);
+    }
+
+    /* ===== TOOLTIP (single ::after, arrow via clip-path) ===== */
+    .tool-icon::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 12px);
+      transform: translate(-50%, 8px) scale(.92);
+      background: var(--ink);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 2px solid #000;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, .9);
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 100;
+      transition: opacity .2s ease,
+        transform .3s cubic-bezier(.34, 1.56, .64, 1),
+        visibility .2s;
+    }
+
+    .tool-icon:hover::after,
+    .tool-icon:focus-visible::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    /* Tooltip arrow: small rotated square as separate pseudo element */
+    .tool-icon::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 6px);
+      width: 12px;
+      height: 12px;
+      background: var(--ink);
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      transform: translate(-50%, 8px) rotate(45deg);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 101;
+      transition: opacity .2s ease,
+        transform .3s cubic-bezier(.34, 1.56, .64, 1),
+        visibility .2s;
+    }
+
+    .tool-icon:hover::before,
+    .tool-icon:focus-visible::before {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0) rotate(45deg);
     }
 
     /* ===== PROJECTS ===== */
@@ -743,15 +809,6 @@
       border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
-    /* .gradient-card {
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 14px;
-      min-height: 300px;
-      display: flex;
-    } */
-
-
     .g1 {
       background: linear-gradient(180deg, #9B82FF 0%, #C7B9FF 70%);
     }
@@ -762,7 +819,6 @@
 
     .g3 {
       background: linear-gradient(00deg, #BCC7FD 29%, #394376 72%);
-
     }
 
     .g4 {
@@ -775,7 +831,6 @@
 
     .g6 {
       background: linear-gradient(00deg, #092030 34%, #FE7420 100%);
-
     }
 
 
@@ -1076,6 +1131,10 @@
       filter: brightness(1.1);
     }
 
+    .arrow-circle img {
+      width: 30px;
+    }
+
     .Orvyn-card {
       background: linear-gradient(0deg, #FF9000 22%, #8A007F 100%);
       border: 1px solid #FFFFFF;
@@ -1313,12 +1372,6 @@
         padding: 14px 20px;
       }
 
-      .btn .arrow-circle {
-        width: 22px;
-        height: 22px;
-        font-size: 12px;
-      }
-
       .hero-nav ul {
         padding: 12px 20px;
         gap: 14px;
@@ -1392,6 +1445,11 @@
       .tool-icon {
         width: 58px;
         height: 58px;
+      }
+
+      .tool-icon::after {
+        font-size: 12px;
+        padding: 8px 10px;
       }
 
       .card-grid {
@@ -1487,7 +1545,7 @@
       transform: scale(1) rotate(0deg);
     }
 
-    /* Section titles: reveal from below (previously clip-path, replaced due to render bug) */
+    /* Section titles: reveal from below */
     [data-animate="clip"] {
       transform: translateY(30px);
       transition: transform .7s cubic-bezier(.22, 1, .36, 1), opacity .7s ease;
@@ -1537,7 +1595,7 @@
       transform: rotate(0deg) scale(1);
     }
 
-    /* Design-process arrows: fade in after icon settles, then flow continuously */
+    /* Design-process arrows */
     .org_1 {
       opacity: 0;
       transition: opacity .4s ease .55s;
@@ -1695,8 +1753,10 @@
         <p class="tagline">I create intuitive digital experiences that balance user needs, business goals and visual
           impact.</p>
         <div class="cta-row">
-          <a href="#projects" class="btn orange">Explore My Work <span class="arrow-circle">→</span></a>
-          <a href="#contact" class="btn blue">Let's Connect <span class="arrow-circle">→</span></a>
+          <a href="#projects" class="btn orange">Explore My Work <span class="arrow-circle"><img
+                src="./assets/black-arrow.svg" alt=""></span></a>
+          <a href="#contact" class="btn blue">Let's Connect <span class="arrow-circle"><img
+                src="./assets/white-arrow.svg" alt=""></span></a>
         </div>
       </div>
     </div>
@@ -1708,13 +1768,13 @@
     <section class="tool-banner blue">
       <h2 class="section-title light" data-animate="slide-left">SOFTWARE I USED</h2>
       <div class="tool-icons">
-        <div class="tool-icon" data-animate="pop" style="color:#a259ff; transition-delay:.05s"><img
+        <div class="tool-icon" data-animate="pop" data-tooltip="Figma" tabindex="0" style="transition-delay:.05s"><img
             src="./assets/Figma.svg" alt="Figma"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#a259ff; transition-delay:.15s"><img
-            src="./assets/AI.svg" alt="Adobe Illustrator"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#a259ff; transition-delay:.25s"><img
-            src="./assets/PS.svg" alt="Adobe Photoshop"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#a259ff; transition-delay:.35s"><img
+        <div class="tool-icon" data-animate="pop" data-tooltip="Adobe Illustrator" tabindex="0"
+          style="transition-delay:.15s"><img src="./assets/AI.svg" alt="Adobe Illustrator"></div>
+        <div class="tool-icon" data-animate="pop" data-tooltip="Adobe Photoshop" tabindex="0"
+          style="transition-delay:.25s"><img src="./assets/PS.svg" alt="Adobe Photoshop"></div>
+        <div class="tool-icon" data-animate="pop" data-tooltip="Canva" tabindex="0" style="transition-delay:.35s"><img
             src="./assets/canva.svg" alt="Canva"></div>
       </div>
     </section>
@@ -1723,18 +1783,21 @@
     <section class="tool-banner orange">
       <h2 class="section-title" data-animate="slide-right">AI TOOLS I USED</h2>
       <div class="tool-icons">
-        <div class="tool-icon" data-animate="pop" style="color:#4285f4; transition-delay:.05s"><img
+        <div class="tool-icon" data-animate="pop" data-tooltip="Gemini" tabindex="0" style="transition-delay:.05s"><img
             src="./assets/gemini.svg" alt="Gemini"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#4285f4; transition-delay:.13s"><img
+        <div class="tool-icon" data-animate="pop" data-tooltip="Claude" tabindex="0" style="transition-delay:.13s"><img
+            src="./assets/Claude.svg" alt="Claude"></div>
+        <div class="tool-icon" data-animate="pop" data-tooltip="ChatGPT" tabindex="0" style="transition-delay:.13s"><img
             src="./assets/chatgpt.svg" alt="ChatGPT"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#4285f4; transition-delay:.21s"><img
-            src="./assets/ai-tool-1.svg" alt="AI design tool"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#4285f4; transition-delay:.29s"><img
+        <div class="tool-icon" data-animate="pop" data-tooltip="AI Design Tool" tabindex="0"
+          style="transition-delay:.21s"><img src="./assets/ai-tool-1.svg" alt="AI design tool"></div>
+        <div class="tool-icon" data-animate="pop" data-tooltip="Lovable" tabindex="0" style="transition-delay:.29s"><img
             src="./assets/lovable.svg" alt="Lovable"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#4285f4; transition-delay:.37s"><img
+        <div class="tool-icon" data-animate="pop" data-tooltip="Uizard" tabindex="0" style="transition-delay:.37s"><img
             src="./assets/uizard.svg" alt="Uizard"></div>
-        <div class="tool-icon" data-animate="pop" style="color:#4285f4; transition-delay:.45s"><img
-            src="./assets/ai-tool-2.svg" alt="AI design tool"></div>
+        <div class="tool-icon" data-animate="pop" data-tooltip="Gamma AI" tabindex="0" style="transition-delay:.45s">
+          <img src="./assets/ai-tool-2.svg" alt="Gamma AI">
+        </div>
       </div>
     </section>
 
