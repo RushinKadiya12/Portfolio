@@ -1697,6 +1697,51 @@
         transition-duration: 0.001ms !important;
       }
     }
+
+
+
+
+
+
+
+
+    /* ===== FIX: horizontal overflow + nav centering ===== */
+    html,
+    body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    .hero {
+      overflow-x: clip;
+      /* hero ke absolute pills/badges bahar na nikle */
+    }
+
+    .hero-nav {
+      width: 100%;
+      left: 0;
+      right: 0;
+    }
+
+    .hero-nav ul {
+      max-width: 100%;
+    }
+
+    /* scroll ke baad side padding hat jati thi, wo jump fix */
+    .hero-nav.scrolled {
+      padding: 14px 12px;
+    }
+
+    @media (max-width: 520px) {
+      .hero-nav {
+        padding: 16px 12px 8px;
+      }
+
+      .hero-nav ul {
+        gap: 8px 12px;
+        padding: 10px 14px;
+      }
+    }
   </style>
 </head>
 
